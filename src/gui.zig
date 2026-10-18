@@ -1241,10 +1241,10 @@ pub const Style = extern struct {
     }
 
     pub fn getColor(style: Style, idx: StyleCol) [4]f32 {
-        return style.colors[@intCast(@intFromEnum(idx))];
+        return style.colors[@intCast(@backingInt(idx))];
     }
     pub fn setColor(style: *Style, idx: StyleCol, color: [4]f32) void {
-        style.colors[@intCast(@intFromEnum(idx))] = color;
+        style.colors[@intCast(@backingInt(idx))] = color;
     }
 };
 /// `pub fn getStyle() *Style`
@@ -2024,7 +2024,7 @@ pub fn comboFromEnum(
     comptime {
         for (enum_type_info.fields, 0..) |f, i| {
             item_names = item_names ++ f.name ++ "\x00";
-            const e: EnumType = @enumFromInt(f.value);
+            const e: EnumType = @fromBackingInt(@intCast(f.value));
             field_name_to_index_list[i] = .{ f.name, @intCast(i) };
             index_to_enum[i] = e;
         }
